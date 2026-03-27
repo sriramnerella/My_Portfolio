@@ -1,16 +1,42 @@
-# React + Vite
+# Portfolio (Vite + React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a personal portfolio web app built with React, Vite, Tailwind CSS, and a macOS-style window UI.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+## Contact form email delivery
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The contact form sends data to a serverless API endpoint (`/api/contact`) and then to your inbox through Resend.
 
-## Expanding the ESLint configuration
+Required environment variables:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `RESEND_API_KEY` (from Resend dashboard)
+- `CONTACT_TO_EMAIL` (set to `sriramnerella435@gmail.com`)
+- `CONTACT_FROM_EMAIL` (sender email, for example `onboarding@resend.dev` while testing)
+
+## Deploy on Vercel (recommended)
+
+1. Push this project to GitHub.
+2. In Vercel, click **Add New Project** and import your repo.
+3. Framework preset: **Vite**.
+4. Build command: `npm run build`.
+5. Output directory: `dist`.
+6. Add environment variables in Vercel Project Settings:
+	- `RESEND_API_KEY`
+	- `CONTACT_TO_EMAIL=sriramnerella435@gmail.com`
+	- `CONTACT_FROM_EMAIL`
+7. Deploy.
+8. Open your deployed site and submit the Contact form to verify email delivery.
+
+## Local API testing note
+
+The `/api/contact` route is a Vercel Serverless Function. To test API routes locally exactly like production, use:
+
+```bash
+npx vercel dev
+```

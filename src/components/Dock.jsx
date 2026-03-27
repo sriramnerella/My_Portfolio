@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import useWindowStore from '#store/window';
 
 const Dock = () => {
-  const {openWindow , closeWindow , windows} = useWindowStore();
+  const {openWindow , closeWindow , windows, restoreWindow} = useWindowStore();
   const dockRef = useRef(null);
 
   useGSAP(()=>{
@@ -78,10 +78,16 @@ const Dock = () => {
       return;
     }
 
-    if(window.isOpen){
+    if(window.isOpen && window.isMinimized){
+      // If window is open but minimized, restore it
+      restoreWindow(app.id);
+    }
+    else if(window.isOpen){
+      // If window is open and visible, close it
       closeWindow(app.id);
     }
     else{
+      // If window is closed, open it
       openWindow(app.id);
     }
 

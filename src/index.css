@@ -102,15 +102,15 @@ body {
     @apply flex gap-2;
 
     .close {
-      @apply size-3.5 rounded-full bg-[#ff6157] cursor-pointer;
+      @apply size-3.5 rounded-full bg-[#ff6157] cursor-pointer hover:brightness-90 active:brightness-75 transition-all;
     }
 
     .minimize {
-      @apply size-3.5 rounded-full bg-[#ffc030];
+      @apply size-3.5 rounded-full bg-[#ffc030] cursor-pointer hover:brightness-90 active:brightness-75 transition-all;
     }
 
     .maximize {
-      @apply size-3.5 rounded-full bg-[#2acb42];
+      @apply size-3.5 rounded-full bg-[#2acb42] cursor-pointer hover:brightness-90 active:brightness-75 transition-all;
     }
   }
 
@@ -120,6 +120,9 @@ body {
 
   #safari {
     @apply w-4xl absolute top-40 left-2/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
 
     .search {
       @apply flex items-center gap-3 w-2/3 bg-white border border-gray-300 rounded-lg px-3 py-2;
@@ -131,6 +134,8 @@ body {
 
     .blog {
       @apply bg-white p-10 max-w-3xl mx-auto;
+      overflow-y: auto;
+      max-height: calc(80vh - 60px);
 
       h2 {
         @apply text-xl font-bold text-pink-600 mb-10;
@@ -164,6 +169,9 @@ body {
 
   #terminal {
     @apply w-xl absolute top-32 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
 
     h2 {
       @apply font-bold text-sm text-center w-full;
@@ -171,6 +179,8 @@ body {
 
     .techstack {
       @apply text-sm font-roboto p-5;
+      overflow-y: auto;
+      max-height: calc(85vh - 60px);
 
       .label {
         @apply flex items-center ms-10 mt-7;
@@ -210,13 +220,62 @@ body {
 
   #contact {
     @apply max-w-2xl absolute top-60 left-5/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    max-height: 75vh;
+    display: flex;
+    flex-direction: column;
 
     h2 {
       @apply font-bold text-sm text-center w-full;
     }
 
+    > div {
+      overflow-y: auto;
+      max-height: calc(75vh - 60px);
+    }
+
     h3 {
       @apply text-xl font-semibold;
+    }
+
+    .contact-form {
+      @apply flex flex-col gap-3;
+
+      input,
+      textarea {
+        @apply w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none transition-colors;
+
+        &:focus {
+          @apply border-blue-500;
+        }
+      }
+
+      .hidden-field {
+        @apply hidden;
+      }
+
+      button {
+        @apply rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors;
+
+        &:hover {
+          @apply bg-blue-700;
+        }
+
+        &:disabled {
+          @apply cursor-not-allowed bg-blue-400;
+        }
+      }
+    }
+
+    .status {
+      @apply text-sm font-medium;
+
+      &.success {
+        @apply text-green-600;
+      }
+
+      &.error {
+        @apply text-red-600;
+      }
     }
 
     ul {
@@ -297,20 +356,33 @@ body {
   }
 
   #resume {
-    @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-96 h-fit max-h-150 absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
 
     #window-header {
       h2 {
         @apply font-bold text-sm text-center flex-1;
       }
     }
+
+    > div:not(#window-header) {
+      overflow-y: auto;
+      max-height: calc(90vh - 60px);
+    }
   }
 
   #finder {
     @apply absolute w-3xl left-40 top-20 shadow-2xl drop-shadow-2xl overflow-hidden rounded-xl;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: row;
 
     .sidebar {
       @apply w-48 bg-gray-50 border-r border-gray-200 flex flex-col p-5 space-y-3;
+      overflow-y: auto;
+      max-height: 85vh;
 
       h3 {
         @apply text-xs font-medium text-gray-400 mb-1;
@@ -335,6 +407,8 @@ body {
 
     .content {
       @apply flex-1 p-8 bg-white max-w-2xl relative;
+      overflow-y: auto;
+      max-height: 85vh;
 
       li {
         @apply absolute flex items-center flex-col gap-3;
@@ -392,5 +466,44 @@ body {
         }
       }
     }
+  }
+
+  /* Smooth scrollbar styling */
+  #safari .blog::-webkit-scrollbar,
+  #terminal .techstack::-webkit-scrollbar,
+  #contact > div::-webkit-scrollbar,
+  #finder .sidebar::-webkit-scrollbar,
+  #finder .content::-webkit-scrollbar,
+  #resume > div::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #safari .blog::-webkit-scrollbar-track,
+  #terminal .techstack::-webkit-scrollbar-track,
+  #contact > div::-webkit-scrollbar-track,
+  #finder .sidebar::-webkit-scrollbar-track,
+  #finder .content::-webkit-scrollbar-track,
+  #resume > div::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  #safari .blog::-webkit-scrollbar-thumb,
+  #terminal .techstack::-webkit-scrollbar-thumb,
+  #contact > div::-webkit-scrollbar-thumb,
+  #finder .sidebar::-webkit-scrollbar-thumb,
+  #finder .content::-webkit-scrollbar-thumb,
+  #resume > div::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
+
+  #safari .blog::-webkit-scrollbar-thumb:hover,
+  #terminal .techstack::-webkit-scrollbar-thumb:hover,
+  #contact > div::-webkit-scrollbar-thumb:hover,
+  #finder .sidebar::-webkit-scrollbar-thumb:hover,
+  #finder .content::-webkit-scrollbar-thumb:hover,
+  #resume > div::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
   }
 }

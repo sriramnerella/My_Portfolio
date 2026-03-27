@@ -9,7 +9,7 @@ const WindowWrapper = (Component,windowKey) => {
 
   const Wrapped = (props)=>{
     const {focusWindow, windows}= useWindowStore();
-    const {isOpen , zIndex } = windows[windowKey];
+    const {isOpen , zIndex, isMinimized, isMaximized } = windows[windowKey];
     const ref = useRef(null);
 
     useGSAP(()=>{
@@ -27,17 +27,25 @@ const WindowWrapper = (Component,windowKey) => {
     useGSAP(()=>{
       const el = ref.current;
       if(!el) return ;
-     const [instance] = Draggable.create(el , {onPress : ()=>{focusWindow(windowKey)} })
+     const [instance] = Draggable.create(el , {
+       onPress : ()=>{focusWindow(windowKey)},
+       trigger: el.querySelector('#window-header'),
+       disabled: isMaximized,
+     });
      return ()=>{ instance.kill() }
-    },[])
+    },[isMaximized])
 
     useLayoutEffect(()=>{
       const el = ref.current;
       if(!el ) return ;
-      el.style.display = isOpen ? "block" : "none";
-    },[isOpen])
+      el.style.display = isOpen && !isMinimized ? "block" : "none";
+    },[isOpen, isMinimized])
 
-    return <section id={windowKey} ref ={ref} style={{zIndex}} className='absolute'   >
+    const windowClasses = `absolute ${
+      isMaximized ? '!fixed !inset-0 !w-screen !h-screen !top-0 !left-0' : ''
+    }`;
+
+    return <section id={windowKey} ref ={ref} style={{zIndex}} className={windowClasses}   >
 
       <Component {...props} />
     </section>
